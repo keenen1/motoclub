@@ -3,6 +3,7 @@ html, body, #root, .App {
   margin: 0px;
   /* display: block; */
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: #574B60;
 }
 
 body {
@@ -28,6 +29,7 @@ body {
   text-align: center;
   border-style: dotted;
   margin-top: auto;
+  background-color: #3F334D;
 }
 
 .title {
@@ -40,34 +42,31 @@ body {
   font-size: 20px;
 }
 
-.container {
-  display: flex;
-  align-items: center;
+.home {
+  display: block;
+  align-content: center;
   justify-content: center;
-  width: 100%;
-  height: 75%;
-  background-color: rgb(43, 226, 67);
+  text-align: center;
 }
 
-.prompt {
-  width: 10vw;
-  height: 10vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background-color: brown;
-}
-
-.prompt:hover {
-  cursor: pointer;
+.home button {
+  width: 700px;
+  margin-top: 100px;
+  /* background-color: #6b7cff; */
+  background-color: #C0C5C1;
+  color: #7D8491;
+  border-radius: 5px;
 }
 
 
 /* APP MOBILE  */
 @media screen and (max-width: 420px) {
-  .prompt {
-    width: 40vw;
-    height: 40vw;
+  .home {
+    display: block;
+  }
+
+  svg {
+    width: 100;
+    height: 100;
   }
 }
