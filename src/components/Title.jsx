@@ -5,8 +5,10 @@ const Title = (props) => {
 
   return (
     <div className="title-container">
-      <div className="title">{title}</div>
-      <div className="subtitle">{subtitle}</div>
+      <div className="title-contents">
+        <div className="title">{title}</div>
+        <div className="subtitle">{subtitle}</div>
+      </div>
     </div>
   )
 }

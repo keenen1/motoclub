@@ -1,11 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Quagga from 'quagga'
-import { useEffect } from 'react'
+import Popup from './Popup'
+import { db } from '../../../firebase/Firebase'
+import { ref, onValue } from 'firebase/database'
 
 function Scanner(props) {
 
+  const [showPopup, setShowPopup] = useState(false)
+  const [ticket, setTicket] = useState(null)
+  const [barcode, setBarcode] = useState('')
+
+  // Read Database
+  const findTicket = (code) => {
+    const dbJson = ref(db, '/');
+    onValue(dbJson, (snapshot) => {
+      const data = snapshot.val()
+      const found = data.filter((d) => {
+        if (d.Barcode === code) {
+          return d
+        }
+      })
+      return found[0]
+    })
+  }
+
   const _onDetected = result => {
+    Quagga.stop()
     props.onDetected(result)
+    const code = result.codeResult.code
+    setBarcode(code)
+    const ticket = findTicket(code)
+    setTicket(ticket)
+    setShowPopup(true)
   }
 
   // componentDidMount
@@ -15,16 +41,10 @@ function Scanner(props) {
         inputStream: {
           type: 'LiveStream',
           constraints: {
-            width: 640,
+            width: 500,
             height: 320,
             facingMode: 'environment',
-          },
-            area: { // defines rectangle of the detection/localization area
-              top: "10%",    // top offset
-              right: "10%",  // right offset
-              left: "10%",   // left offset
-              bottom: "10%"  // bottom offset
-            },
+          }
         },
         locator: {
           halfSample: true,
@@ -60,11 +80,13 @@ function Scanner(props) {
         if (err) {
           return console.log(err)
         }
+        // alert("Initialization finished. Ready to start");
+        // console.log("Initialization finished. Ready to start");
         Quagga.start()
-      }
+      },
     )
     Quagga.onDetected(_onDetected)
-  }, [])
+  }, [showPopup])
 
   // componentWillUnmount
   useEffect(() => {
@@ -73,7 +95,19 @@ function Scanner(props) {
     }
   }, [])
 
-  return <div id="interactive" className="viewport" />
+  return (
+    <>
+      <div id="interactive" className="viewport" />
+      {showPopup && <Popup
+        // className="modal"
+        ticket={ticket}
+        barcode={barcode}
+        showPopup={showPopup}
+        setShowPopup={setShowPopup}
+        />
+      }
+    </>
+  )
 
 }
 

@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {Fab, TextField, TextareaAutosize, Grid} from '@material-ui/core'
 import {ArrowBack, GetApp} from '@material-ui/icons'
 import { Link } from "react-router-dom";
-// var Barcode = require('react-barcode');
 import { useBarcode } from '@createnextapp/react-barcode'
 
 function BarType() {
@@ -78,8 +77,7 @@ function BarType() {
                         <Grid item xs={10}>
                         <TextareaAutosize
                             style={{fontSize:18, width:250, height:100}}
-                            rowsMax={4}
-                            defaultValue={barcode}
+                            maxRows={4}
                             value={barcode}
                         />
                         </Grid>
